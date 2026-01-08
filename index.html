@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Arial', cursive;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ffa500;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px #ffa500; }
+            50% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px #ffa500, 0 0 30px #ff8c00; }
+        }
+
+        .instruction {
+            color: #ffa500;
+            font-size: 1.3em;
+            margin: 20px 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .cake-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin: 30px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .cake-container:hover {
+            transform: scale(1.05);
+        }
+
+        .cake {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+
+        .layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+        }
+
+        .layer1 {
+            bottom: 0;
+            width: 180px;
+            height: 60px;
+            background: linear-gradient(180deg, #ff9d6e 0%, #ff8552 100%);
+            border: 3px solid #ff6b35;
+        }
+
+        .layer2 {
+            bottom: 50px;
+            width: 150px;
+            height: 50px;
+            background: linear-gradient(180deg, #ffb088 0%, #ff9d6e 100%);
+            border: 3px solid #ff8552;
+        }
+
+        .layer3 {
+            bottom: 90px;
+            width: 120px;
+            height: 40px;
+            background: linear-gradient(180deg, #ffc4a3 0%, #ffb088 100%);
+            border: 3px solid #ff9d6e;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 40px;
+            background: linear-gradient(180deg, #fff 0%, #ffe5b4 100%);
+            border-radius: 2px;
+        }
+
+        .flame {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background: radial-gradient(circle, #ffeb3b 0%, #ff9800 50%, #ff5722 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 0.3s ease-in-out infinite;
+            transition: opacity 0.5s ease;
+        }
+
+        .flame.blown {
+            opacity: 0;
+            animation: blowAway 0.5s ease-out forwards;
+        }
+
+        @keyframes flicker {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1, 0.95); }
+        }
+
+        @keyframes blowAway {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-20px) scale(0.5); opacity: 0; }
+        }
+
+        .message {
+            color: #ffa500;
+            font-size: 1.1em;
+            margin-top: 20px;
+            max-width: 500px;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            animation: messageGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes messageGlow {
+            0%, 100% { text-shadow: 0 0 5px #ffa500; }
+            50% { text-shadow: 0 0 20px #ffa500, 0 0 30px #ff8c00; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ffa500;
+            position: absolute;
+            animation: fall 3s linear;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .balloon {
+            position: fixed;
+            width: 50px;
+            height: 60px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .music-note {
+            position: fixed;
+            font-size: 2em;
+            animation: musicFloat 3s ease-in-out infinite;
+            opacity: 0;
+            color: #ffa500;
+        }
+
+        @keyframes musicFloat {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+        }
+
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .piano-visual {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            gap: 2px;
+        }
+
+        .piano-visual.active {
+            display: flex;
+        }
+
+        .piano-key {
+            width: 30px;
+            height: 80px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 0 0 5px 5px;
+            transition: all 0.1s ease;
+        }
+
+        .piano-key.active {
+            background: #ffa500;
+            transform: translateY(5px);
+            box-shadow: 0 0 20px #ffa500;
+        }
+    </style>
+</head>
+<body>
+    <div class="piano-visual" id="pianoVisual">
+        <div class="piano-key"></div>
+        <div class="piano-key"></div>
+        <div class="piano-key"></div>
+        <div class="piano-key"></div>
+        <div class="piano-key"></div>
+        <div class="piano-key"></div>
+        <div class="piano-key"></div>
+    </div>
+
+    <div class="container">
+        <h1>🎉 Happy Birthday! 🎉</h1>
+        <p class="instruction">Click the cake 🎂<br><small style="font-size: 0.8em;"></small></p>
+        <div class="cake-container" onclick="blowCandle()">
+            <div class="cake">
+                <div class="layer layer1">
+                    <div class="decoration" style="left: 20px; top: 10px;"></div>
+                    <div class="decoration" style="right: 20px; top: 10px;"></div>
+                    <div class="decoration" style="left: 50%; top: 20px; transform: translateX(-50%);"></div>
+                </div>
+                <div class="layer layer2">
+                    <div class="decoration" style="left: 15px; top: 8px;"></div>
+                    <div class="decoration" style="right: 15px; top: 8px;"></div>
+                </div>
+                <div class="layer layer3">
+                    <div class="decoration" style="left: 10px; top: 6px;"></div>
+                    <div class="decoration" style="right: 10px; top: 6px;"></div>
+                </div>
+                <div class="candle">
+                    <div class="flame" id="flame"></div>
+                </div>
+            </div>
+        </div>
+        <p class="message" id="message">
+            May your day be filled with happiness,  
+        laughter, love, and unforgettable memories 💖  
+        Always stay the same amazing person!
+
+         Wishing you success, good health,  
+        and endless smiles in your life ✨
+            🎂 Happy Birthday, Akriti! 🎂
+        </p>
+    </div>
+
+    <script>
+        let candleBlown = false;
+        let audioContext;
+        let pianoKeys;
+
+        function initAudio() {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            pianoKeys = document.querySelectorAll('.piano-key');
+        }
+
+        function playPianoNote(frequency, startTime, duration, keyIndex) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            // Add harmonics for piano-like sound
+            const harmonic1 = audioContext.createOscillator();
+            const harmonic2 = audioContext.createOscillator();
+            const harmonic1Gain = audioContext.createGain();
+            const harmonic2Gain = audioContext.createGain();
+            
+            // Main tone
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'triangle';
+            
+            // Harmonics for richer piano sound
+            harmonic1.connect(harmonic1Gain);
+            harmonic1Gain.connect(audioContext.destination);
+            harmonic1.frequency.value = frequency * 2;
+            harmonic1.type = 'sine';
+            harmonic1Gain.gain.value = 0.1;
+            
+            harmonic2.connect(harmonic2Gain);
+            harmonic2Gain.connect(audioContext.destination);
+            harmonic2.frequency.value = frequency * 3;
+            harmonic2.type = 'sine';
+            harmonic2Gain.gain.value = 0.05;
+            
+            // Piano-like envelope (ADSR)
+            const attackTime = 0.02;
+            const decayTime = 0.1;
+            const sustainLevel = 0.15;
+            const releaseTime = 0.3;
+            
+            gainNode.gain.setValueAtTime(0, startTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, startTime + attackTime);
+            gainNode.gain.linearRampToValueAtTime(sustainLevel, startTime + attackTime + decayTime);
+            gainNode.gain.setValueAtTime(sustainLevel, startTime + duration - releaseTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+            
+            oscillator.start(startTime);
+            oscillator.stop(startTime + duration);
+            harmonic1.start(startTime);
+            harmonic1.stop(startTime + duration);
+            harmonic2.start(startTime);
+            harmonic2.stop(startTime + duration);
+            
+            // Visual piano key animation
+            if (keyIndex !== undefined && pianoKeys[keyIndex]) {
+                setTimeout(() => {
+                    pianoKeys[keyIndex].classList.add('active');
+                    setTimeout(() => {
+                        pianoKeys[keyIndex].classList.remove('active');
+                    }, duration * 1000);
+                }, (startTime - audioContext.currentTime) * 1000);
+            }
+        }
+
+        function playSoothingBirthdaySong() {
+            if (!audioContext) initAudio();
+            
+            document.getElementById('pianoVisual').classList.add('active');
+            
+            // Soothing, slower tempo Happy Birthday in C major
+            // Each note: [frequency, duration, keyIndex]
+            const melody = [
+                // "Happy birth-day to you" (slower, softer)
+                [261.63, 0.6, 0],   // C (Happy)
+                [261.63, 0.4, 0],   // C (birth-)
+                [293.66, 0.8, 1],   // D (day)
+                [261.63, 0.8, 0],   // C (to)
+                [349.23, 0.8, 2],   // F (you)
+                [329.63, 1.6, 3],   // E (hold)
+                
+                // "Happy birth-day to you"
+                [261.63, 0.6, 0],   // C
+                [261.63, 0.4, 0],   // C
+                [293.66, 0.8, 1],   // D
+                [261.63, 0.8, 0],   // C
+                [392.00, 0.8, 4],   // G
+                [349.23, 1.6, 2],   // F
+                
+                // "Happy birth-day Akriti" (with feeling)
+                [261.63, 0.6, 0],   // C
+                [261.63, 0.4, 0],   // C
+                [523.25, 0.8, 5],   // C (high)
+                [440.00, 0.8, 6],   // A
+                [349.23, 0.8, 2],   // F
+                [329.63, 0.8, 3],   // E
+                [293.66, 1.6, 1],   // D
+                
+                // "Happy birth-day to you" (finale)
+                [466.16, 0.6, 4],   // Bb
+                [466.16, 0.4, 4],   // Bb
+                [440.00, 0.8, 6],   // A
+                [349.23, 0.8, 2],   // F
+                [392.00, 0.8, 4],   // G
+                [349.23, 2.0, 2]    // F (final note held longer)
+            ];
+            
+            let currentTime = audioContext.currentTime + 0.1;
+            
+            melody.forEach(([freq, duration, keyIndex]) => {
+                playPianoNote(freq, currentTime, duration, keyIndex);
+                currentTime += duration;
+            });
+            
+            // Hide piano visual after song ends
+            setTimeout(() => {
+                document.getElementById('pianoVisual').classList.remove('active');
+            }, currentTime * 1000 + 1000);
+        }
+
+        function showMusicNotes() {
+            const notes = ['🎹', '🎵', '🎶', '♪', '♫'];
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const note = document.createElement('div');
+                    note.classList.add('music-note');
+                    note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                    note.style.left = Math.random() * 100 + '%';
+                    note.style.top = Math.random() * 100 + '%';
+                    note.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(note);
+
+                    setTimeout(() => note.remove(), 3000);
+                }, i * 200);
+            }
+        }
+
+        function createFireworks() {
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight / 2;
+                    
+                    for (let j = 0; j < 20; j++) {
+                        const firework = document.createElement('div');
+                        firework.classList.add('firework');
+                        firework.style.left = x + 'px';
+                        firework.style.top = y + 'px';
+                        firework.style.background = ['#ffa500', '#ff6b35', '#f7931e', '#ffeb3b', '#ff5722'][Math.floor(Math.random() * 5)];
+                        
+                        const angle = (Math.PI * 2 * j) / 20;
+                        const velocity = 50 + Math.random() * 50;
+                        const tx = Math.cos(angle) * velocity;
+                        const ty = Math.sin(angle) * velocity;
+                        
+                        firework.style.setProperty('--tx', tx + 'px');
+                        firework.style.setProperty('--ty', ty + 'px');
+                        firework.style.animation = `explode 1s ease-out forwards`;
+                        firework.style.transform = `translate(var(--tx), var(--ty))`;
+                        
+                        document.body.appendChild(firework);
+                        
+                        setTimeout(() => firework.remove(), 1000);
+                    }
+                }, i * 300);
+            }
+        }
+
+        function blowCandle() {
+            if (candleBlown) return;
+            
+            candleBlown = true;
+            const flame = document.getElementById('flame');
+            const message = document.getElementById('message');
+            const instruction = document.querySelector('.instruction');
+            
+            // Play soothing piano birthday song
+            playSoothingBirthdaySong();
+            
+            // Blow out candle
+            flame.classList.add('blown');
+            instruction.style.display = 'none';
+            
+            // Show message
+            setTimeout(() => {
+                message.classList.add('show');
+            }, 500);
+            
+            // Show music notes
+            showMusicNotes();
+            
+            // Create confetti (slower, more elegant)
+            for (let i = 0; i < 120; i++) {
+                setTimeout(() => createConfetti(), i * 30);
+            }
+            
+            // Create balloons
+            createBalloons();
+            
+            // Create fireworks
+            setTimeout(() => createFireworks(), 1500);
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = -10 + 'px';
+            confetti.style.animationDuration = (3 + Math.random() * 2) + 's';
+            confetti.style.background = ['#ffa500', '#ff6b35', '#f7931e', '#ffeb3b', '#ff5722', '#4ecdc4', '#45b7d1'][Math.floor(Math.random() * 7)];
+            confetti.style.width = (5 + Math.random() * 8) + 'px';
+            confetti.style.height = confetti.style.width;
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+
+        function createBalloons() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#fd79a8', '#a29bfe'];
+            for (let i = 0; i < 7; i++) {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.left = (i * 14 + 5) + '%';
+                balloon.style.top = (20 + Math.random() * 30) + '%';
+                balloon.style.background = colors[i];
+                balloon.style.animationDelay = (i * 0.3) + 's';
+                balloon.style.width = (40 + Math.random() * 20) + 'px';
+                balloon.style.height = (50 + Math.random() * 20) + 'px';
+                document.body.appendChild(balloon);
+            }
+        }
+
+        // Slower, more elegant continuous confetti
+        setInterval(() => {
+            if (!candleBlown) return;
+            if (Math.random() > 0.5) createConfetti();
+        }, 400);
+    </script>
+</body>
+</html>
+
+
+
+
